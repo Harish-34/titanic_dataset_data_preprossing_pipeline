@@ -1,7 +1,9 @@
+import matplotlib
+matplotlib.use('Agg')  # Critical for server environments
+import matplotlib.pyplot as plt
 import streamlit as st
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 import seaborn as sns
 import scipy.stats as stats
 
@@ -14,7 +16,7 @@ st.markdown("---")
 
 # Data Description Section
 st.header("Dataset Overview")
-data = pd.read_csv('./dataset/titanic.csv', header=0, dtype={'Age': np.float64})
+data = pd.read_csv('dataset/titanic.csv', header=0, dtype={'Age': np.float64})
 
 col1, col2 = st.columns(2)
 with col1:
