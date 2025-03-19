@@ -1,3 +1,7 @@
 [build-system]
 requires = ["setuptools<65.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "titanic-survival-analysis"
+version = "1.0.0"
