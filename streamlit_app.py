@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from scipy import stats
+import scipy.stats as stats
 
 # Set page config
 st.set_page_config(page_title="Titanic Data Preprocessing Pipeline", layout="wide")
@@ -14,7 +14,7 @@ st.markdown("---")
 
 # Data Description Section
 st.header("Dataset Overview")
-data = pd.read_csv('./DATASET/tITANIC DATASET.csv', header=0, dtype={'Age': np.float64})
+data = pd.read_csv('./dataset/titanic.csv', header=0, dtype={'Age': np.float64})
 
 col1, col2 = st.columns(2)
 with col1:
