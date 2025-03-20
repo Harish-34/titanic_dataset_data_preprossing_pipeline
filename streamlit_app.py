@@ -1,3 +1,14 @@
+import subprocess
+import sys
+
+# Function to install required packages
+def install_packages():
+    required_packages = ["pandas", "numpy", "matplotlib", "seaborn", "scipy"]
+    subprocess.check_call([sys.executable, "-m", "pip", "install"] + required_packages)
+
+# Install missing packages
+install_packages()
+
 import streamlit as st
 import pandas as pd
 import numpy as np
