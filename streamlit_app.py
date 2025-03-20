@@ -16,7 +16,7 @@ st.markdown("---")
 
 # Data Description Section
 st.header("Dataset Overview")
-data = pd.read_csv('dataset/titanic.csv', header=0, dtype={'Age': np.float64})
+data = pd.read_csv('titanic.csv')
 
 col1, col2 = st.columns(2)
 with col1:
