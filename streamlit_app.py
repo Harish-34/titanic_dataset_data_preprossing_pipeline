@@ -1,5 +1,3 @@
-import matplotlib
-matplotlib.use('Agg')  # Critical for server environments
 import matplotlib.pyplot as plt
 import streamlit as st
 import pandas as pd
@@ -16,7 +14,11 @@ st.markdown("---")
 
 # Data Description Section
 st.header("Dataset Overview")
-data = pd.read_csv('titanic.csv')
+try:
+    data = pd.read_csv('titanic.csv')  # Ensure this file path is correct
+except FileNotFoundError:
+    st.error("File 'titanic.csv' not found. Please upload the file.")
+    st.stop()
 
 col1, col2 = st.columns(2)
 with col1:
@@ -41,13 +43,7 @@ titanic = data.copy()
 
 # Step 1: Remove Columns
 with st.expander("1. Feature Selection", expanded=True):
-    st.write("""
-    **Columns removed:**
-    - Name: Unique identifiers don't affect survival
-    - Ticket: High cardinality and irrelevant
-    - Fare: Highly correlated with Pclass
-    - Cabin: Too many missing values (>77%)
-    """)
+    st.write(""" **Columns removed:** - Name: Unique identifiers don't affect survival - Ticket: High cardinality and irrelevant - Fare: Highly correlated with Pclass - Cabin: Too many missing values (>77%) """)
     cols_to_remove = ['Name', 'Ticket', 'Fare', 'Cabin']
     titanic.drop(cols_to_remove, axis=1, inplace=True)
     st.write("Data after removing columns:")
@@ -69,8 +65,7 @@ with st.expander("2. Missing Value Treatment", expanded=True):
         st.metric("Mean Age (Not Survived)", f"{meanNS:.1f} years")
     
     # Imputation logic
-    titanic['age'] = np.where(pd.isnull(titanic.Age) & (titanic.Survived == 1), 
-                            meanS, titanic.Age)
+    titanic['age'] = np.where(pd.isnull(titanic.Age) & (titanic.Survived == 1), meanS, titanic.Age)
     titanic.age.fillna(meanNS, inplace=True)
     titanic.drop('Age', axis=1, inplace=True)
     
@@ -79,11 +74,7 @@ with st.expander("2. Missing Value Treatment", expanded=True):
 
 # Step 3: Categorical Encoding
 with st.expander("3. Categorical Encoding", expanded=True):
-    st.write("""
-    **Encoding Schemes:**
-    - Sex: male=1, female=2
-    - Embarked: S=1, Q=2, C=3
-    """)
+    st.write(""" **Encoding Schemes:** - Sex: male=1, female=2 - Embarked: S=1, Q=2, C=3 """)
     
     # Gender encoding
     titanic['Sex'] = titanic['Sex'].apply(lambda x: 1 if x == 'male' else 2)
@@ -158,7 +149,7 @@ with col2:
     embarked = st.selectbox("Embarked", ["S", "Q", "C"])
 
 # Preprocess user input
-user_data = pd.DataFrame([[pclass, sex, age, sibsp, parch, embarked]],
+user_data = pd.DataFrame([[pclass, sex, age, sibsp, parch, embarked]], 
                         columns=['Pclass', 'Sex', 'age', 'SibSp', 'Parch', 'Embarked'])
 
 # Apply same preprocessing
